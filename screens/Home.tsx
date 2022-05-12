@@ -1,16 +1,34 @@
 import * as React from 'react';
+import { Formik } from 'formik';
 import { TextField, Button } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+
 import { TabPanel } from '../components/TabPanel';
-import { Formik } from 'formik';
+import { Aviary } from '../models/Aviary';
+import { SnakeAviary } from '../models/SnakeAviary';
+import { TurtleAviary } from '../models/TurtleAviary';
+import { ChameleonAviary } from '../models/ChameleonAviary';
 
 export const Home = () => {
   const [aviaryCount, setAviaryCount] = React.useState(0);
   const [value, setValue] = React.useState(0);
+  const [aviaries, setAviaries] = React.useState<Array<Aviary>>([]);
+  const [totalVolume, setTotalVolume] = React.useState(0);
+  const [totalSquare, setTotalSquare] = React.useState(0);
+
+  React.useEffect(() => {
+    setTotalVolume(
+      aviaries.reduce((acc, instance) => acc + instance.getVolume(), 0)
+    );
+
+    setTotalSquare(
+      aviaries.reduce((acc, instance) => acc + instance.getEffectiveSquare(), 0)
+    );
+  }, [aviaries]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -25,7 +43,15 @@ export const Home = () => {
     landWidth: number;
     landLength: number;
   }) => {
-    console.log(values);
+    setAviaries((prev) => [
+      ...prev,
+      new SnakeAviary(
+        1,
+        values.airTemperature,
+        values.landWidth,
+        values.landLength
+      ),
+    ]);
   };
 
   const addTurtleAviary = (values: {
@@ -33,7 +59,15 @@ export const Home = () => {
     lakeWidth: number;
     lakeLength: number;
   }) => {
-    console.log(values);
+    setAviaries((prev) => [
+      ...prev,
+      new TurtleAviary(
+        1,
+        values.lakeTemperature,
+        values.lakeWidth,
+        values.lakeLength
+      ),
+    ]);
   };
 
   const addChameleonAviary = (values: {
@@ -44,7 +78,18 @@ export const Home = () => {
     lakeWidth: number;
     lakeLength: number;
   }) => {
-    console.log(values);
+    setAviaries((prev) => [
+      ...prev,
+      new ChameleonAviary(
+        1,
+        values.lakeTemperature,
+        values.lakeWidth,
+        values.lakeLength,
+        values.airTemperature,
+        values.landWidth,
+        values.landLength
+      ),
+    ]);
   };
 
   return (
@@ -70,8 +115,8 @@ export const Home = () => {
         }}
       >
         <Typography>There are {aviaryCount} aviaries</Typography>
-        <Typography>Total Volume: {0}</Typography>
-        <Typography>Total effective square: {0}</Typography>
+        <Typography>Total Volume: {totalVolume}</Typography>
+        <Typography>Total effective square: {totalSquare}</Typography>
       </Box>
       <AppBar position="static">
         <Tabs
@@ -91,9 +136,9 @@ export const Home = () => {
       <TabPanel value={value} index={0}>
         <Formik
           initialValues={{
-            airTemperature: 0,
-            landWidth: 0,
-            landLength: 0,
+            airTemperature: 30,
+            landWidth: 2,
+            landLength: 2,
           }}
           onSubmit={addSnakeAviary}
         >
@@ -152,9 +197,9 @@ export const Home = () => {
       <TabPanel value={value} index={1}>
         <Formik
           initialValues={{
-            lakeTemperature: 0,
-            lakeWidth: 0,
-            lakeLength: 0,
+            lakeTemperature: 25,
+            lakeWidth: 5,
+            lakeLength: 6,
           }}
           onSubmit={addTurtleAviary}
         >
@@ -213,12 +258,12 @@ export const Home = () => {
       <TabPanel value={value} index={2}>
         <Formik
           initialValues={{
-            lakeTemperature: 0,
-            lakeWidth: 0,
-            lakeLength: 0,
-            airTemperature: 0,
-            landWidth: 0,
-            landLength: 0,
+            lakeTemperature: 20,
+            lakeWidth: 1,
+            lakeLength: 15,
+            airTemperature: 35,
+            landWidth: 3.9,
+            landLength: 4.9,
           }}
           onSubmit={addChameleonAviary}
         >

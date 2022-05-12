@@ -11,5 +11,7 @@ export abstract class Aviary {
 
   abstract getEffectiveSquare(): number;
 
-  getVolume = () => {};
+  getVolume = () => {
+    return this.height * this.getEffectiveSquare();
+  };
 }
