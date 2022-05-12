@@ -1,0 +1,31 @@
+{
+  "name": "react-ts",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@babel/core": "7.17.10",
+    "@babel/runtime": "7.17.9",
+    "@emotion/react": "11.9.0",
+    "@emotion/styled": "11.8.1",
+    "@mui/icons-material": "5.6.2",
+    "@mui/material": "5.7.0",
+    "@mui/styled-engine-sc": "5.7.0",
+    "@types/react": "18.0.9",
+    "@types/react-dom": "18.0.3",
+    "@types/styled-components": "5.1.25",
+    "formik": "^2.2.9",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "react-is": "18.1.0",
+    "styled-components": "5.3.5"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "react-scripts-ts": "latest"
+  }
+}
