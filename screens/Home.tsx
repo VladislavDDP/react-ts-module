@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { TextField, Button } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -14,19 +14,23 @@ import { TurtleAviary } from '../models/TurtleAviary';
 import { ChameleonAviary } from '../models/ChameleonAviary';
 
 export const Home = () => {
-  const [aviaryCount, setAviaryCount] = React.useState(0);
-  const [value, setValue] = React.useState(0);
-  const [aviaries, setAviaries] = React.useState<Array<Aviary>>([]);
-  const [totalVolume, setTotalVolume] = React.useState(0);
-  const [totalSquare, setTotalSquare] = React.useState(0);
+  const [aviaryCount, setAviaryCount] = useState(0);
+  const [value, setValue] = useState(0);
+  const [aviaries, setAviaries] = useState<Array<Aviary>>([]);
+  const [totalVolume, setTotalVolume] = useState<string | number>(0);
+  const [totalSquare, setTotalSquare] = useState<string | number>(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTotalVolume(
-      aviaries.reduce((acc, instance) => acc + instance.getVolume(), 0)
+      aviaries
+        .reduce((acc, instance) => acc + instance.getVolume(), 0)
+        .toFixed(2)
     );
 
     setTotalSquare(
-      aviaries.reduce((acc, instance) => acc + instance.getEffectiveSquare(), 0)
+      aviaries
+        .reduce((acc, instance) => acc + instance.getEffectiveSquare(), 0)
+        .toFixed(2)
     );
   }, [aviaries]);
 
@@ -46,7 +50,6 @@ export const Home = () => {
     setAviaries((prev) => [
       ...prev,
       new SnakeAviary(
-        1,
         values.airTemperature,
         values.landWidth,
         values.landLength
@@ -62,7 +65,6 @@ export const Home = () => {
     setAviaries((prev) => [
       ...prev,
       new TurtleAviary(
-        1,
         values.lakeTemperature,
         values.lakeWidth,
         values.lakeLength
@@ -81,7 +83,6 @@ export const Home = () => {
     setAviaries((prev) => [
       ...prev,
       new ChameleonAviary(
-        1,
         values.lakeTemperature,
         values.lakeWidth,
         values.lakeLength,

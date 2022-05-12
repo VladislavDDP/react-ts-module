@@ -12,21 +12,21 @@ export class ChameleonAviary extends Aviary implements hasLand, hasLake {
   landLength: number;
 
   constructor(
-    height: number = 0.5,
     waterTemperature: number,
     lakeWidth: number,
     lakeLength: number,
     airTemperature: number,
     landWidth: number,
-    landLength: number
+    landLength: number,
+    height: number = 0.5
   ) {
     super(height);
-    this.waterTemperature = 20;
-    this.lakeWidth = 1;
-    this.lakeLength = 15;
-    this.airTemperature = 35;
-    this.landWidth = 3.9;
-    this.landLength = 4.9;
+    this.waterTemperature = waterTemperature;
+    this.lakeWidth = lakeWidth;
+    this.lakeLength = lakeLength;
+    this.airTemperature = airTemperature;
+    this.landWidth = landWidth;
+    this.landLength = landLength;
   }
 
   getEffectiveSquare = () => {
