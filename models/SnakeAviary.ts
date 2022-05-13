@@ -10,17 +10,19 @@ export class SnakeAviary extends Aviary implements hasLand {
     airTemperature: number,
     landWidth: number,
     landLength: number,
-    height: number = 1
+    height: number = 0.75
   ) {
-    super(height);
+    super('Snake', height);
     this.airTemperature = airTemperature;
     this.landWidth = landWidth;
     this.landLength = landLength;
   }
 
-  showLandInfo: () => void;
-
-  getEffectiveSquare = () => {
+  printSquare = () => {
     return this.landWidth * this.landLength;
+  };
+
+  printVolume = () => {
+    return this.printSquare() * this.height;
   };
 }

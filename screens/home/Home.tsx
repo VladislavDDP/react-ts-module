@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Formik } from 'formik';
-import { TextField, Button } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 
 import { TabPanel } from '../../components/TabPanel';
 import { Aviary } from '../../models/Aviary';
@@ -14,7 +15,21 @@ import { TurtleAviary } from '../../models/TurtleAviary';
 import { ChameleonAviary } from '../../models/ChameleonAviary';
 import { SnakeAviaryForm } from './SnakeAviaryForm';
 import { TurtleAviaryForm } from './TurtleAviaryForm';
-import { ChameleonAviaryForm } from './TurtleAviaryForm';
+import { ChameleonAviaryForm } from './ChameleonAviaryForm';
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  height: '60%',
+  overflowY: 'auto',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 export const Home = () => {
   const [aviaryCount, setAviaryCount] = useState(0);
@@ -23,16 +38,20 @@ export const Home = () => {
   const [totalVolume, setTotalVolume] = useState<string | number>(0);
   const [totalSquare, setTotalSquare] = useState<string | number>(0);
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   useEffect(() => {
     setTotalVolume(
       aviaries
-        .reduce((acc, instance) => acc + instance.getVolume(), 0)
+        .reduce((acc, instance) => acc + instance.printVolume(), 0)
         .toFixed(2)
     );
 
     setTotalSquare(
       aviaries
-        .reduce((acc, instance) => acc + instance.getEffectiveSquare(), 0)
+        .reduce((acc, instance) => acc + instance.printSquare(), 0)
         .toFixed(2)
     );
   }, [aviaries]);
@@ -41,7 +60,7 @@ export const Home = () => {
     setValue(newValue);
   };
 
-  const addAviary = () => {
+  const increaseAviariesQuantity = () => {
     setAviaryCount((prev) => prev + 1);
   };
 
@@ -107,6 +126,34 @@ export const Home = () => {
         width: '100%',
       }}
     >
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Details about each aviary
+          </Typography>
+          {!aviaries.length ? (
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              There are no aviaries
+            </Typography>
+          ) : (
+            aviaries.map((aviary, index) => (
+              <Typography
+                key={index}
+                id="modal-modal-description"
+                sx={{ mt: 2 }}
+              >
+                Aviary {aviary.name}. Square: {aviary.printSquare()}, Volume:{' '}
+                {aviary.printVolume()}
+              </Typography>
+            ))
+          )}
+        </Box>
+      </Modal>
       <Box
         sx={{
           bgcolor: 'background.paper',
@@ -118,9 +165,13 @@ export const Home = () => {
           marginBottom: '30px',
         }}
       >
-        <Typography>There are {aviaryCount} aviaries</Typography>
-        <Typography>Total Volume: {totalVolume}</Typography>
-        <Typography>Total effective square: {totalSquare}</Typography>
+        <Typography variant="h6">There are {aviaryCount} aviaries</Typography>
+        <Typography>Total volume: {totalVolume}</Typography>
+        <Typography>Total square: {totalSquare}</Typography>
+
+        <Button variant="outlined" onClick={handleOpen}>
+          Check all
+        </Button>
       </Box>
       <AppBar position="static">
         <Tabs
@@ -138,168 +189,29 @@ export const Home = () => {
       </AppBar>
 
       <TabPanel value={value} index={0}>
-        <SnakeAviaryForm />
+        <Alert severity="warning">
+          Default height for snake aviary is 0.75m
+        </Alert>
+        <SnakeAviaryForm
+          addSnakeAviary={addSnakeAviary}
+          increaseAviariesQuantity={increaseAviariesQuantity}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Formik
-          initialValues={{
-            lakeTemperature: 25,
-            lakeWidth: 5,
-            lakeLength: 6,
-          }}
-          onSubmit={addTurtleAviary}
-        >
-          {({ values, handleChange, handleBlur, handleSubmit }) => (
-            <form
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-              }}
-              onSubmit={handleSubmit}
-            >
-              <TextField
-                name="lakeTemperature"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.lakeTemperature}
-                className="customInput"
-                label="Lake temperature"
-                variant="outlined"
-                type="number"
-              />
-              <TextField
-                name="lakeWidth"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.lakeWidth}
-                className="customInput"
-                label="Lake width"
-                variant="outlined"
-                type="number"
-              />
-              <TextField
-                name="lakeLength"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.lakeLength}
-                className="customInput"
-                label="Lake length"
-                variant="outlined"
-                type="number"
-              />
-              <Button
-                type="submit"
-                style={{ marginTop: '25px' }}
-                onClick={addAviary}
-                variant="contained"
-              >
-                Add new aviary
-              </Button>
-            </form>
-          )}
-        </Formik>
+        <Alert severity="warning">Default height for turtle aviary is 2m</Alert>
+        <TurtleAviaryForm
+          addTurtleAviary={addTurtleAviary}
+          increaseAviariesQuantity={increaseAviariesQuantity}
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Formik
-          initialValues={{
-            lakeTemperature: 20,
-            lakeWidth: 1,
-            lakeLength: 15,
-            airTemperature: 35,
-            landWidth: 3.9,
-            landLength: 4.9,
-          }}
-          onSubmit={addChameleonAviary}
-        >
-          {({ values, handleChange, handleBlur, handleSubmit }) => (
-            <form
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-              }}
-              onSubmit={handleSubmit}
-            >
-              <Box style={{ display: 'flex', flexDirection: 'row' }}>
-                <Box>
-                  <TextField
-                    name="airTemperature"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.airTemperature}
-                    className="customInput"
-                    label="Air temperature"
-                    variant="outlined"
-                    type="number"
-                  />
-                  <TextField
-                    name="landWidth"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.landWidth}
-                    className="customInput"
-                    label="Land width"
-                    variant="outlined"
-                    type="number"
-                  />
-                  <TextField
-                    name="landLength"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.landLength}
-                    className="customInput"
-                    label="Land length"
-                    variant="outlined"
-                    type="number"
-                  />
-                </Box>
-                <Box>
-                  <TextField
-                    name="lakeTemperature"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.lakeTemperature}
-                    className="customInput"
-                    label="Lake temperature"
-                    variant="outlined"
-                    type="number"
-                  />
-                  <TextField
-                    name="lakeWidth"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.lakeWidth}
-                    className="customInput"
-                    label="Lake width"
-                    variant="outlined"
-                    type="number"
-                  />
-                  <TextField
-                    name="lakeLength"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.lakeLength}
-                    className="customInput"
-                    label="Lake length"
-                    variant="outlined"
-                    type="number"
-                  />
-                </Box>
-              </Box>
-              <Button
-                type="submit"
-                style={{ marginTop: '25px' }}
-                onClick={addAviary}
-                variant="contained"
-              >
-                Add new aviary
-              </Button>
-            </form>
-          )}
-        </Formik>
+        <Alert severity="warning">
+          Default height for chameleon aviary is 0.5m
+        </Alert>
+        <ChameleonAviaryForm
+          addChameleonAviary={addChameleonAviary}
+          increaseAviariesQuantity={increaseAviariesQuantity}
+        />
       </TabPanel>
     </Box>
   );

@@ -12,15 +12,17 @@ export class TurtleAviary extends Aviary implements hasLake {
     lakeLength: number,
     height: number = 2
   ) {
-    super(height);
+    super('Turtle', height);
     this.waterTemperature = waterTemperature;
     this.lakeWidth = lakeWidth;
     this.lakeLength = lakeLength;
   }
 
-  showLakeInfo: () => void;
-
-  getEffectiveSquare = () => {
+  printSquare = () => {
     return this.lakeWidth * this.lakeLength;
+  };
+
+  printVolume = () => {
+    return this.printSquare() * this.height;
   };
 }

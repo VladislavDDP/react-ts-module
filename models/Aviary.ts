@@ -1,17 +1,17 @@
 export type Material = 'glass';
 
 export abstract class Aviary {
+  name: string;
   height: number;
   material: string;
 
-  constructor(height: number, material: Material = 'glass') {
+  constructor(name: string, height: number, material: Material = 'glass') {
+    this.name = name;
     this.height = height;
     this.material = material;
   }
 
-  abstract getEffectiveSquare(): number;
+  abstract printVolume: () => number;
 
-  getVolume = () => {
-    return this.height * this.getEffectiveSquare();
-  };
+  abstract printSquare: () => number;
 }

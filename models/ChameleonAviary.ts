@@ -20,7 +20,7 @@ export class ChameleonAviary extends Aviary implements hasLand, hasLake {
     landLength: number,
     height: number = 0.5
   ) {
-    super(height);
+    super('Chameleon', height);
     this.waterTemperature = waterTemperature;
     this.lakeWidth = lakeWidth;
     this.lakeLength = lakeLength;
@@ -29,10 +29,11 @@ export class ChameleonAviary extends Aviary implements hasLand, hasLake {
     this.landLength = landLength;
   }
 
-  showLakeInfo: () => void;
-  showLandInfo: () => void;
-
-  getEffectiveSquare = () => {
+  printSquare = () => {
     return this.lakeWidth * this.lakeLength + this.landWidth * this.landLength;
+  };
+
+  printVolume = () => {
+    return this.printSquare() * this.height;
   };
 }

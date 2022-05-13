@@ -3,10 +3,18 @@ import { Formik } from 'formik';
 import { TextField, Button } from '@mui/material';
 
 interface Props {
-  addSnakeAviary: (values: any) => void;
+  increaseAviariesQuantity: () => void;
+  addSnakeAviary: (values: {
+    airTemperature: number;
+    landWidth: number;
+    landLength: number;
+  }) => void;
 }
 
-export const SnakeAviaryForm: FC<Props> = ({ addSnakeAviary }) => {
+export const SnakeAviaryForm: FC<Props> = ({
+  increaseAviariesQuantity,
+  addSnakeAviary,
+}) => {
   return (
     <Formik
       initialValues={{
@@ -59,7 +67,7 @@ export const SnakeAviaryForm: FC<Props> = ({ addSnakeAviary }) => {
           <Button
             type="submit"
             style={{ marginTop: '25px' }}
-            onClick={addAviary}
+            onClick={increaseAviariesQuantity}
             variant="contained"
           >
             Add new aviary
