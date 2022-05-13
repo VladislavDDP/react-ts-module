@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import { Formik } from 'formik';
 import { TextField, Button, Box } from '@mui/material';
 
+import style from './home.module';
+
 interface Props {
   increaseAviariesQuantity: () => void;
   addChameleonAviary: (values: {
@@ -47,7 +49,7 @@ export const ChameleonAviaryForm: FC<Props> = ({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.airTemperature}
-                className="customInput"
+                className={style.input}
                 label="Air temperature"
                 variant="outlined"
                 type="number"
@@ -57,7 +59,7 @@ export const ChameleonAviaryForm: FC<Props> = ({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.landWidth}
-                className="customInput"
+                className={style.input}
                 label="Land width"
                 variant="outlined"
                 type="number"
@@ -67,7 +69,7 @@ export const ChameleonAviaryForm: FC<Props> = ({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.landLength}
-                className="customInput"
+                className={style.input}
                 label="Land length"
                 variant="outlined"
                 type="number"
@@ -79,7 +81,7 @@ export const ChameleonAviaryForm: FC<Props> = ({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.lakeTemperature}
-                className="customInput"
+                className={style.input}
                 label="Lake temperature"
                 variant="outlined"
                 type="number"
@@ -89,7 +91,7 @@ export const ChameleonAviaryForm: FC<Props> = ({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.lakeWidth}
-                className="customInput"
+                className={style.input}
                 label="Lake width"
                 variant="outlined"
                 type="number"
@@ -99,7 +101,7 @@ export const ChameleonAviaryForm: FC<Props> = ({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.lakeLength}
-                className="customInput"
+                className={style.input}
                 label="Lake length"
                 variant="outlined"
                 type="number"
