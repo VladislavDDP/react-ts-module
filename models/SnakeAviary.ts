@@ -18,6 +18,8 @@ export class SnakeAviary extends Aviary implements hasLand {
     this.landLength = landLength;
   }
 
+  showLandInfo: () => void;
+
   getEffectiveSquare = () => {
     return this.landWidth * this.landLength;
   };

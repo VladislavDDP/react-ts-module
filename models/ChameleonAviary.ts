@@ -29,6 +29,9 @@ export class ChameleonAviary extends Aviary implements hasLand, hasLake {
     this.landLength = landLength;
   }
 
+  showLakeInfo: () => void;
+  showLandInfo: () => void;
+
   getEffectiveSquare = () => {
     return this.lakeWidth * this.lakeLength + this.landWidth * this.landLength;
   };

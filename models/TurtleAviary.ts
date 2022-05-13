@@ -18,6 +18,8 @@ export class TurtleAviary extends Aviary implements hasLake {
     this.lakeLength = lakeLength;
   }
 
+  showLakeInfo: () => void;
+
   getEffectiveSquare = () => {
     return this.lakeWidth * this.lakeLength;
   };

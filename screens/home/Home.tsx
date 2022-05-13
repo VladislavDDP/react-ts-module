@@ -7,11 +7,14 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-import { TabPanel } from '../components/TabPanel';
-import { Aviary } from '../models/Aviary';
-import { SnakeAviary } from '../models/SnakeAviary';
-import { TurtleAviary } from '../models/TurtleAviary';
-import { ChameleonAviary } from '../models/ChameleonAviary';
+import { TabPanel } from '../../components/TabPanel';
+import { Aviary } from '../../models/Aviary';
+import { SnakeAviary } from '../../models/SnakeAviary';
+import { TurtleAviary } from '../../models/TurtleAviary';
+import { ChameleonAviary } from '../../models/ChameleonAviary';
+import { SnakeAviaryForm } from './SnakeAviaryForm';
+import { TurtleAviaryForm } from './TurtleAviaryForm';
+import { ChameleonAviaryForm } from './TurtleAviaryForm';
 
 export const Home = () => {
   const [aviaryCount, setAviaryCount] = useState(0);
@@ -135,65 +138,7 @@ export const Home = () => {
       </AppBar>
 
       <TabPanel value={value} index={0}>
-        <Formik
-          initialValues={{
-            airTemperature: 30,
-            landWidth: 2,
-            landLength: 2,
-          }}
-          onSubmit={addSnakeAviary}
-        >
-          {({ values, handleChange, handleBlur, handleSubmit }) => (
-            <form
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-              }}
-              onSubmit={handleSubmit}
-            >
-              <TextField
-                name="airTemperature"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.airTemperature}
-                className="customInput"
-                label="Air temperature"
-                variant="outlined"
-                type="number"
-              />
-              <TextField
-                name="landWidth"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.landWidth}
-                className="customInput"
-                label="Land width"
-                variant="outlined"
-                type="number"
-              />
-              <TextField
-                name="landLength"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.landLength}
-                className="customInput"
-                label="Land length"
-                variant="outlined"
-                type="number"
-              />
-              <Button
-                type="submit"
-                style={{ marginTop: '25px' }}
-                onClick={addAviary}
-                variant="contained"
-              >
-                Add new aviary
-              </Button>
-            </form>
-          )}
-        </Formik>
+        <SnakeAviaryForm />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Formik
